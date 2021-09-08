@@ -28,6 +28,10 @@ snyk-test: ## Run 'snyk test' on the image.
 snyk-monitor: ## Run 'snyk monitor' on the image.
 	./scripts/snyk-check.sh -c "${APP_NAME}" -a "monitor" -p Dockerfile
 
+.PHONY: push
+push: ## Publish the container on Docker Hub
+    $(CONTAINER_RUNTIME) push "${APP_NAME}"
+
 .PHONY: shell
 shell: ## Launce a shell in the container.
 	$(CONTAINER_RUNTIME) run -it --rm \
