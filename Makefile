@@ -1,4 +1,4 @@
-REPO_NAME ?= damiantroy
+REPO_NAME ?= localhost
 IMAGE_NAME ?= bedrock-server
 APP_NAME := ${REPO_NAME}/${IMAGE_NAME}
 CONTAINER_RUNTIME := $(shell command -v podman 2> /dev/null || echo docker)
