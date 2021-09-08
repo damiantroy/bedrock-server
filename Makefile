@@ -1,4 +1,6 @@
-APP_NAME := bedrock-server
+REPO_NAME ?= damiantroy
+IMAGE_NAME ?= bedrock-server
+APP_NAME := ${REPO_NAME}/${IMAGE_NAME}
 CONTAINER_RUNTIME := $(shell command -v podman 2> /dev/null || echo docker)
 
 .PHONY: help
@@ -22,11 +24,11 @@ test: ## Fake test target for CI/CD scripts.
 
 .PHONY: snyk-test
 snyk-test: ## Run 'snyk test' on the image.
-	./scripts/snyk-check.sh -c "${APP_NAME}" -a "test" -p Dockerfile
+	./scripts/snyk-check.sh -c "${IMAGE_NAME}" -a "test" -p Dockerfile
 
 .PHONY: snyk-monitor
 snyk-monitor: ## Run 'snyk monitor' on the image.
-	./scripts/snyk-check.sh -c "${APP_NAME}" -a "monitor" -p Dockerfile
+	./scripts/snyk-check.sh -c "${IMAGE_NAME}" -a "monitor" -p Dockerfile
 
 .PHONY: push
 push: ## Publish the container on Docker Hub
