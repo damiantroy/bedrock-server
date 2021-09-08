@@ -17,6 +17,9 @@ build: ## Build the container.
 build-nc: ## Build the container without cache.
 	$(CONTAINER_RUNTIME) build --no-cache -t "${APP_NAME}" .
 
+.PHONY: test
+test: ## Fake test target for CI/CD scripts.
+
 .PHONY: snyk-test
 snyk-test: ## Run 'snyk test' on the image.
 	./scripts/snyk-check.sh -c "${APP_NAME}" -a "test" -p Dockerfile
