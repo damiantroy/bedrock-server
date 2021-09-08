@@ -30,7 +30,7 @@ snyk-monitor: ## Run 'snyk monitor' on the image.
 
 .PHONY: push
 push: ## Publish the container on Docker Hub
-    $(CONTAINER_RUNTIME) push "${APP_NAME}"
+	$(CONTAINER_RUNTIME) push "${APP_NAME}"
 
 .PHONY: shell
 shell: ## Launce a shell in the container.
