@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get install -y unzip curl && \
     rm -rf /var/lib/apt/lists/*
+COPY test.sh /usr/local/bin/
 
 # Download and extract the bedrock server
 RUN if [ "$VERSION" = "latest" ] ; then \

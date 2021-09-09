@@ -20,7 +20,10 @@ build-nc: ## Build the container without cache.
 	$(CONTAINER_RUNTIME) build --no-cache -t "${APP_NAME}" .
 
 .PHONY: test
-test: ## Fake test target for CI/CD scripts.
+test: ## Test the container.
+	$(CONTAINER_RUNTIME) run -it --rm "${APP_NAME}" \
+		bash -c "nohup ./bedrock_server & \
+			test.sh -t 30 -f nohup.out -s 'Server started'"
 
 .PHONY: snyk-test
 snyk-test: ## Run 'snyk test' on the image.
