@@ -53,5 +53,9 @@ wait_server() {
 
 if wait_server "$LOG_FILE" "$SUCCESS_STRING" "$TIMEOUT"; then
     echo "*** Test successful"
+    exit 0
+else
+    echo "*** Test failed"
+    exit 1
 fi
 
