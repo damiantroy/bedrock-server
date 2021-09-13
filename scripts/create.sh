@@ -14,6 +14,6 @@ sudo $CONTAINER_RUNTIME run -d \
     --name="minecraft-${MINECRAFT_NAME}" \
     -v "${BASE_DIR}/config:/bedrock-server/config:Z" \
     -v "${BASE_DIR}/worlds:/bedrock-server/worlds:Z" \
-    -p $PORT:$PORT/udp \
+    -p $PORT:19132/udp \
     $IMAGE_NAME
 
