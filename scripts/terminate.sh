@@ -6,6 +6,7 @@ CONTAINER_RUNTIME=$(command -v podman 2> /dev/null || echo docker)
 
 if [ -z "$MINECRAFT_NAME" ]; then
     echo "Error: MINECRAFT_NAME variable not set!"
+    exit 1
 fi
 CONTAINER_NAME="minecraft-${MINECRAFT_NAME}"
 
