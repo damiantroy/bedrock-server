@@ -20,7 +20,7 @@ ExecStart=/usr/bin/podman run \
           --replace \
           --volume /etc/minecraft/survival2/config:/bedrock-server/config:Z \
           --volume /etc/minecraft/survival2/worlds:/bedrock-server/worlds:Z \
-          --publish ${MC_PORT}:19132/udp \
+          --publish ${MC_PORT}:${MC_PORT}/udp \
           --label "io.containers.autoupdate=registry" \
           ${MC_IMAGE_NAME}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/container-${MC_CONT_NAME}.ctr-id -t 10
