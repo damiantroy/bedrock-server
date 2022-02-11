@@ -18,8 +18,8 @@ ExecStart=/usr/bin/podman run \
           --cgroups=no-conmon \
           --rm \
           --replace \
-          --volume /etc/minecraft/survival2/config:/bedrock-server/config:Z \
-          --volume /etc/minecraft/survival2/worlds:/bedrock-server/worlds:Z \
+          --volume /etc/minecraft/${MC_WORLD_NAME}/config:/bedrock-server/config:Z \
+          --volume /etc/minecraft/${MC_WORLD_NAME}/worlds:/bedrock-server/worlds:Z \
           --publish ${MC_PORT}:${MC_PORT}/udp \
           --label "io.containers.autoupdate=registry" \
           ${MC_IMAGE_NAME}
