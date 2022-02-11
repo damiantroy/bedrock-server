@@ -18,7 +18,7 @@
     ```shell
     sudo systemctl enable --now "container-${MC_CONT_NAME}"
     ```
-1. Enable daily auto-updates:
+1. (Optional) Enable daily auto-updates:
     ```shell
     sudo systemctl enable --now podman-auto-update.timer
     ```
