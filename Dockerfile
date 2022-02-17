@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
 RUN apt-get update && \
+    apt-get upgrade -y && \
     apt-get install -y unzip curl && \
     rm -rf /var/lib/apt/lists/*
 COPY test.sh /usr/local/bin/
