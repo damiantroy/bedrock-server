@@ -22,14 +22,14 @@ RUN if [ "$VERSION" = "latest" ] ; then \
     else \
         echo "Using VERSION of $VERSION"; \
     fi && \
-    curl https://minecraft.azureedge.net/bin-linux/bedrock-server-${VERSION}.zip --output bedrock-server.zip && \
-    unzip bedrock-server.zip -d bedrock-server && \
-    rm bedrock-server.zip
+    curl https://minecraft.azureedge.net/bin-linux/bedrock-server-${VERSION}.zip --output /tmp/bedrock-server.zip && \
+    unzip /tmp/bedrock-server.zip -d /bedrock-server && \
+    rm -f /tmp/bedrock-server.zip
 
-# Create a separate folder for configurations move the original files there and create links for the files
-RUN mkdir /bedrock-server/config && \
-    mv /bedrock-server/server.properties /bedrock-server/config && \
-    mv /bedrock-server/permissions.json /bedrock-server/config && \
+# Move config to exposable volume
+RUN mkdir -p /bedrock-server/config && \
+    mv /bedrock-server/server.properties /bedrock-server/config/ && \
+    mv /bedrock-server/permissions.json /bedrock-server/config/ && \
     ln -s /bedrock-server/config/server.properties /bedrock-server/server.properties && \
     ln -s /bedrock-server/config/permissions.json /bedrock-server/permissions.json
 
