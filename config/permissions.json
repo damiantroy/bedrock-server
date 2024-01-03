@@ -1,0 +1,11 @@
+[
+    {
+        "permission": "operator",
+        "xuid": "${MC_XUID}"
+    },
+    {
+        "permission": "member",
+        "xuid": "${MC_XUID}"
+    }
+]
+

@@ -1,0 +1,7 @@
+[
+    {
+        "ignoresPlayerLimit": true,
+        "name": "${MC_PLAYER}",
+        "xuid": "${MC_XUID}"
+    }
+]
