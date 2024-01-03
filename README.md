@@ -9,9 +9,9 @@ This Docker image will download the Bedrock Server app and set it up, along with
 1. Prepare the persistent volumes:
     1. Create a volume for the configuration:<br/>
         `docker volume create --name "bedrock-config"`
-    2. Create a volume for the worlds:<br/>
+    1. Create a volume for the worlds:<br/>
         `docker volume create --name "bedrock-worlds"`
-2. Create the Docker container:
+1. Create the Docker container:
     ```bash
     docker create --name=minecraft -it\
         -v "bedrock-config:/bedrock-server/config"\
@@ -20,12 +20,12 @@ This Docker image will download the Bedrock Server app and set it up, along with
         --restart=unless-stopped\
         damiantroy/bedrock-server
     ```
-3. Prepare the config files
+1. Prepare the config files
     1. Either start the server once and stop it
-    2. or copy the files from the original archives
-3. Configure the default files in the `config` volume:
+    1. or copy the files from the original archives
+1. Configure the default files in the `config` volume:
     1. Configure the `server.properties` to your likings.
-    2. Configure the `whitelist.json` in case you have set `white-list=true` in the above step. Note: The `xuid` is optional and will automatically be added as soon as a matching player connects. Here's an example of a `whitelist.json` file:
+    1. Configure the `whitelist.json` in case you have set `white-list=true` in the above step. Note: The `xuid` is optional and will automatically be added as soon as a matching player connects. Here's an example of a `whitelist.json` file:
         ```json
         [
             {
@@ -91,3 +91,66 @@ The server supports taking backups of the world files while the server is runnin
 | save hold | This will ask the server to prepare for a backup. It’s asynchronous and will return immediately. |
 | save query | After calling `save hold` you should call this command repeatedly to see if the preparation has finished. When it returns a success it will return a file list (with lengths for each file) of the files you need to copy. The server will not pause while this is happening, so some files can be modified while the backup is taking place. As long as you only copy the files in the given file list and truncate the copied files to the specified lengths, then the backup should be valid. |
 | save resume | When you’re finished with copying the files you should call this to tell the server that it’s okay to remove old files again. |
+
+## Podman on CentOS
+
+### Initial Setup
+
+```bash
+sudo useradd minecraft
+sudo mkdir -p /srv/minecraft
+sudo chown -R minecraft:minecraft /srv/minecraft
+sudo firewall-cmd --new-service-from-file firewalld/minecraft.xml --permanent
+sudo firewall-cmd --add-service minecraft --permanent
+sudo firewall-cmd --reload
+```
+
+### Per World Setup
+
+Expand your port range to cover all worlds:
+
+```bash
+sudo vim /etc/firewalld/services/minecraft.xml
+sudo firewall-cmd --reload
+```
+
+The next section will generate your per world config, so be sure to
+inspect and customise the configuration files to your liking.
+
+```bash
+sudo su - minecraft
+
+# Config
+export MC_WORLD_NAME=MyWorld
+export MC_PORT=19132
+export MC_PORTV6=19133
+export MC_XUID=1234567890
+export MC_PLAYER=MyName
+mkdir -p /srv/minecraft/${MC_WORLD_NAME}/{config,worlds}
+envsubst < config/permissions.json > /srv/minecraft/${MC_WORLD_NAME}/config/permissions.json
+envsubst < config/server.properties > /srv/minecraft/${MC_WORLD_NAME}/config/server.properties
+envsubst < config/whitelist.json > /srv/minecraft/${MC_WORLD_NAME}/config/whitelist.json
+
+# Systemd
+mkdir -p .config/containers/systemd
+envsubst < systemd/minecraft-template.container > .config/containers/systemd/minecraft-${MC_WORLD_NAME}.container
+systemctl --user daemon-reload
+systemctl --user start minecraft-${MC_WORLD_NAME}
+```
+
+Once the world has started, you can configure your client to connect to
+your server's IP, and the port you specified.
+
+### Build
+
+Be sure to change the image name to your own.
+
+```bash
+podman login
+export REPO_NAME=docker.io
+export IMAGE_NAME=damiantroy/bedrock-server
+make build
+make test
+make push
+```
+

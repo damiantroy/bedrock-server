@@ -1,0 +1,10 @@
+[Container]
+Image=docker.io/damiantroy/bedrock-server:latest
+ContainerName=minecraft-${MC_WORLD_NAME}
+Network=host
+Volume=/srv/minecraft/${MC_WORLD_NAME}/config:/bedrock-server/config:Z
+Volume=/srv/minecraft/${MC_WORLD_NAME}/worlds:/bedrock-server/worlds:Z
+AutoUpdate=registry
+
+[Install]
+WantedBy=multi-user.target default.target

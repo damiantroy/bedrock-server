@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>Minecraft</short>
+  <port protocol="tcp" port="19132-19147"/>
+  <port protocol="udp" port="19132-19147"/>
+</service>
