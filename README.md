@@ -133,7 +133,7 @@ envsubst < config/whitelist.json > /srv/minecraft/${MC_WORLD_NAME}/config/whitel
 
 # Systemd
 mkdir -p .config/containers/systemd
-envsubst < systemd/minecraft-template.container > .config/containers/systemd/minecraft-${MC_WORLD_NAME}.container
+envsubst < systemd/minecraft-template.container > ~/.config/containers/systemd/minecraft-${MC_WORLD_NAME}.container
 systemctl --user daemon-reload
 systemctl --user start minecraft-${MC_WORLD_NAME}
 ```
