@@ -15,14 +15,15 @@ COPY test.sh /usr/local/bin/
 RUN if [ "$VERSION" = "latest" ] ; then \
         LATEST_VERSION=$( \
             curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.${RANDOM}.116 Safari/537.36" -H "Accept-Language: en" https://www.minecraft.net/en-us/download/server/bedrock 2>&1 | \
-            grep -o 'https://minecraft.azureedge.net/bin-linux/[^""]*' | \
+            grep -o 'https://www.minecraft.net/bedrockdedicatedserver/bin-linux/[^""]*' | \
             sed 's#.*/bedrock-server-##' | sed 's/.zip//') && \
         export VERSION=$LATEST_VERSION && \
         echo "Setting VERSION to $LATEST_VERSION"; \
     else \
         echo "Using VERSION of $VERSION"; \
     fi && \
-    curl https://minecraft.azureedge.net/bin-linux/bedrock-server-${VERSION}.zip --output /tmp/bedrock-server.zip && \
+    curl -sL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.${RANDOM}.116 Safari/537.36" https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-${VERSION}.zip --output /tmp/bedrock-server.zip && \
+    ls -la /tmp/bedrock-server.zip && \
     unzip /tmp/bedrock-server.zip -d /bedrock-server && \
     rm -f /tmp/bedrock-server.zip
 
