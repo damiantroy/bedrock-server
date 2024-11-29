@@ -149,7 +149,7 @@ Be sure to change the image name to your own.
 export REPO_NAME=docker.io
 export IMAGE_NAME=damiantroy/bedrock-server
 podman login "$REPO_NAME"
-make build
+make build-nc
 make test
 make push
 ```
