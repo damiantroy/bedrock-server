@@ -1,5 +1,5 @@
 # ---- Build image -----------------------------------------------------------
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 ARG BDS_VERSION=latest
 
 ENV VERSION="$BDS_VERSION"
@@ -8,8 +8,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Core utilities + jq for JSON parsing
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-        curl unzip jq ca-certificates && \
+        bash curl unzip jq ca-certificates && \
     rm -rf /var/lib/apt/lists/*
+
 COPY test.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/test.sh
 
